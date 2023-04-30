@@ -1,5 +1,4 @@
 from django.shortcuts import render
-from .models import Letting, Profile
 
 
 # Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque molestie quam lobortis leo
@@ -10,6 +9,7 @@ from .models import Letting, Profile
 # cursus in. Praesent volutpat porttitor magna, non finibus neque cursus id.
 def index(request):
     return render(request, 'index.html')
+<<<<<<< HEAD
 
 # Aenean leo magna, vestibulum et tincidunt fermentum, consectetur quis velit. Sed non placerat
 # massa. Integer est nunc, pulvinar a tempor et, bibendum id arcu. Vestibulum ante ipsum primis
@@ -59,3 +59,5 @@ def profile(request, username):
     profile = Profile.objects.get(user__username=username)
     context = {'profile': profile}
     return render(request, 'profile.html', context)
+=======
+>>>>>>> 2-refonte-de-larchitecture-modulaire
