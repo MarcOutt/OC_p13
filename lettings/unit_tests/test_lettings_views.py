@@ -25,6 +25,8 @@ def test_index(client):
     path = reverse('lettings_index')
     response = client.get(path)
     assert response.status_code == 200
+    assert b'<title>Lettings</title>' in response.content
+    assert f'<a href="/lettings/{letting.id}/">' in str(response.content)
 
 
 @pytest.mark.django_db
@@ -42,3 +44,5 @@ def test_letting(client):
 
     response = client.get('/lettings/1/')
     assert response.status_code == 200
+    assert b'<title>Blue Lagoon</title>' in response.content
+    assert b'<p>150658456 13 rue de paris</p>' in response.content
