@@ -1,4 +1,4 @@
-version : 2.1
+version: 2.1
 
 jobs:
   test:
@@ -6,7 +6,7 @@ jobs:
       - image: python:3.7
     working_directory: ~/project
     environment:
-      -DJANGO_SETTINGS_MODULE: oc_lettings_site.settings
+      - DJANGO_SETTINGS_MODULE: myproject.settings
     steps:
       - checkout
       - run:
@@ -15,7 +15,7 @@ jobs:
             pip install --upgrade pip
             pip install -r requirements.txt
       - run:
-          name: run test
+          name: Run tests
           command: |
             python manage.py test
 
@@ -23,4 +23,4 @@ workflows:
   version: 2.1
   test-the-application:
     jobs:
-      -test
+      - test
