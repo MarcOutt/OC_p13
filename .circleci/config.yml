@@ -1,26 +1,24 @@
-version : 2.1
+version: 2.1
+
+orbs:
+  python: circleci/python@1.5.0
 
 jobs:
-  test:
+  build-and-test:
+
     docker:
-      - image: python:3.7
-    working_directory: ~/project
-    environment:
-      -DJANGO_SETTINGS_MODULE: oc_lettings_site.settings
+      - image: cimg/python:3.10.2
+
     steps:
       - checkout
+      - python/install-packages:
+          pkg-manager: pip
+
       - run:
-          name: Install dependencies
-          command: |
-            pip install --upgrade pip
-            pip install -r requirements.txt
-      - run:
-        name: run test
-          command: |
-            python manage.py test
+          name: Run tests
+          command: pytest
 
 workflows:
-  version: 2.1
-  test-the-application:
+  sample:
     jobs:
-      -test
+      - build-and-test
