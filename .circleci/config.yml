@@ -20,6 +20,8 @@ jobs:
       - run:
           name: Run tests
           command: pytest
+          environnement:
+            DJANGO_SETTINGS_MODULE: oc_lettings_site.settings
 
 workflows:
   sample:
