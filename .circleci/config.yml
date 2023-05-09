@@ -31,12 +31,12 @@ workflows:
   sample:
     jobs:
       - build-and-test:
-        filters:
-          branches:
-            ignore: master
+          filters:
+            branches:
+              ignore: master
       - deploy:
-        requires:
-          - build-and-test
-        filters:
-          branches:
-            only: master
+          requires:
+            - build-and-test
+          filters:
+            branches:
+              only: master
