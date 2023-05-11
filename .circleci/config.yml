@@ -13,14 +13,15 @@ jobs:
       - checkout
       - python/install-packages:
           pkg-manager: pip
+           
+      - run:
+          name: Run coverage
+          command: pytest --cov=.
           
       - run:
           name: Run linting
           command: flake8
- 
-      - run:
-          name: Run coverage
-          command: pytest --cov=.
+
           
   deploy:
     docker:
