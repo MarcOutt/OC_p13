@@ -17,10 +17,10 @@ jobs:
       - run:
           name: Run linting
           command: flake8
-        
+ 
       - run:
-          name: Run tests
-          command: pytest
+          name: Run coverage
+          commande: pytest --cov=.
           
   deploy:
     docker:
