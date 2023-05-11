@@ -20,7 +20,7 @@ jobs:
  
       - run:
           name: Run coverage
-          commande: pytest --cov=.
+          command: pytest --cov=.
           
   deploy:
     docker:
