@@ -7,7 +7,7 @@ from profiles.models import Profile
 def test_create_address():
     user = User.objects.create(username='Jean',
                                password='Azerty12345'
-                           )
+                               )
     assert user.username == 'Jean'
     assert user.password == 'Azerty12345'
 

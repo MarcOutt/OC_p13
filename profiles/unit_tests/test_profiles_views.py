@@ -23,8 +23,8 @@ def test_profiles(client):
                                password='Azerty12345'
                                )
 
-    profile = Profile.objects.create(user=user,
-                                     favorite_city='Paris')
+    Profile.objects.create(user=user,
+                           favorite_city='Paris')
 
     response = client.get('/profiles/Jean/')
     assert response.status_code == 200

@@ -19,8 +19,8 @@ def test_index(client):
                                      country_iso_code=23
                                      )
 
-    letting = Letting.objects.create(title='Blue Lagoon',
-                                     address=address)
+    Letting.objects.create(title='Blue Lagoon',
+                           address=address)
 
     path = reverse('lettings_index')
     response = client.get(path)
@@ -37,8 +37,8 @@ def test_letting(client):
                                      country_iso_code=23
                                      )
 
-    letting = Letting.objects.create(title='Blue Lagoon',
-                                     address=address)
+    Letting.objects.create(title='Blue Lagoon',
+                           address=address)
 
     response = client.get('/lettings/1/')
     assert response.status_code == 200
