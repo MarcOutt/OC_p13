@@ -26,7 +26,7 @@ jobs:
             DOCKER_TAG=$(git rev-parse HEAD)
             echo "DOCKER_TAG: $DOCKER_TAG"
             docker build -t lettings_site:$DOCKER_TAG .
-            docker login -u $DOCKER_USER --password-stdin
+            echo $DOCKER_PASSWORD | docker login -u $DOCKER_USER --password-stdin
             docker push lettings_site:$DOCKER_TAG
 
   deploy:
