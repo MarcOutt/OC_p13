@@ -5,49 +5,41 @@ orbs:
 
 jobs:
   build-and-test:
-
     docker:
       - image: cimg/python:3.7
-
     steps:
       - checkout
       - python/install-packages:
           pkg-manager: pip
-           
       - run:
           name: Run coverage
           command: pytest --cov=.
-          
       - run:
           name: Run linting
           command: flake8
-
       - setup_remote_docker:
           version: 20.10.14
           docker_layer_caching: True
-
-      - run:
-          name: Docker image tag
-          command: export DOCKER_TAG=$(git rev-parse HEAD)
-
       - run:
           name: Build Docker image
           command: |
+            DOCKER_TAG=$(git rev-parse HEAD)
             echo "DOCKER_TAG: $DOCKER_TAG"
             docker build -t lettings_site:$DOCKER_TAG .
             docker login -u $DOCKER_USER --password-stdin
             docker push lettings_site:$DOCKER_TAG
-          
+
   deploy:
     docker:
       - image: cimg/python:3.7
     steps:
       - checkout
       - run:
-          echo deploy
-
+          name: Deploy
+          command: echo deploy
 
 workflows:
+  version: 2
   sample:
     jobs:
       - build-and-test:
@@ -60,4 +52,3 @@ workflows:
           filters:
             branches:
               only: master
-              
