@@ -27,12 +27,15 @@ jobs:
           docker_layer_caching: True
 
       - run:
+          name: Docker image tag
+          command: export DOCKER_TAG=$(git rev-parse HEAD)
+
+      - run:
           name: Build Docker image
-          command:|
-            TAG=0.1.$CIRCLE_BUILD_NUM
-            docker build -t CircleCI-Public/circleci-demo-docker:$TAG .
+          command: |
+            docker build -t lettings_site:$DOCKER_TAG .
             docker login -u $DOCKER_USER --password-stdin
-            docker push CircleCI-Public/circleci-demo-docker:$TAG
+            docker push lettings_site:$DOCKER_TAG
           
   deploy:
     docker:
