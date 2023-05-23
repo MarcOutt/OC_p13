@@ -1,6 +1,8 @@
 version: 2.1
+
 orbs:
   python: circleci/python@1.5.0
+
 jobs:
   build-and-test:
     docker:
@@ -15,20 +17,27 @@ jobs:
       - run:
           name: Run linting
           command: flake8
+      - setup_remote_docker:
+          version: 20.10.14
+          docker_layer_caching: True
+      - run:
+          name: Build Docker image
+          command: |
+            DOCKER_TAG=$(git rev-parse HEAD)
+            echo "DOCKER_TAG: $DOCKER_TAG"
+            docker build -t marcout/lettings_site:$DOCKER_TAG .
+            echo $DOCKER_PASSWORD | docker login -u $DOCKER_USER --password-stdin
+            docker push marcout/lettings_site:$DOCKER_TAG
   deploy:
-    docker:
-      - image: cimg/python:3.7
-    steps:
-      - checkout
-      - run:
-          command: |
-            curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
-      - run:
-          command: |
-            az login --service-principal --username $AZURE_CLIENT_ID
-            az webapp up -n LettingsSite -g LettingsSite_group --sku ASP-LettingsSitegroup-bb30 (F1: 1)
-          
+  steps:
+    - run:
+        name: Deploy to Azure Web App
+        command: |
+          az login --service-principal --username $AZURE_CLIENT_ID --password $AZURE_CLIENT_SECRET --tenant $AZURE_TENANT_ID
+          az webapp config container set --name LettingsSite --resource-group ASP-LettingsSitegroup-bb30 --docker-custom-image-name marcout/lettings_site:latest --docker-registry-server-url https://index.docker.io
+
 workflows:
+  version: 2
   sample:
     jobs:
       - build-and-test:
@@ -36,6 +45,8 @@ workflows:
             branches:
               ignore: master
       - deploy:
+          requires:
+            - build-and-test
           filters:
             branches:
               only: master
