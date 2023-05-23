@@ -30,7 +30,10 @@ jobs:
             docker push marcout/lettings_site:$DOCKER_TAG
 
   deploy:
+    docker:
+      - image: cimg/python:3.7
     steps:
+      - checkout
       - run:
           name: Deploy to Azure Web App
           command: |
