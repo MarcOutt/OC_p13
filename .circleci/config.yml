@@ -1,7 +1,7 @@
 version: 2.1
 orbs:
   python: circleci/python@1.5.0
-  azure-cli: circleci/azure-cli@0.1.5
+  azure-cli: circleci/azure-cli
 jobs:
   build-and-test:
     docker:
