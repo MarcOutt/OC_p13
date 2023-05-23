@@ -28,7 +28,7 @@ jobs:
             docker build -t marcout/lettings_site:$DOCKER_TAG .
             echo $DOCKER_PASSWORD | docker login -u $DOCKER_USER --password-stdin
             docker push marcout/lettings_site:$DOCKER_TAG
-  deploy:
+ deploy:
   steps:
     - run:
         name: Deploy to Azure Web App
