@@ -54,3 +54,16 @@ workflows:
           filters:
             branches:
               only: master
+              
+  master-workflow:
+    jobs:
+      - build-and-test:
+          filters:
+            branches:
+              only: master
+      - deploy:
+          requires:
+            - build-and-test
+          filters:
+            branches:
+              only: master
