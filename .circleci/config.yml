@@ -18,10 +18,6 @@ jobs:
           name: Run linting
           command: flake8
 
-      - run:
-          name: Run coverage
-          command: pytest --cov=.
-
 
   deploy:
     docker:
@@ -38,8 +34,13 @@ workflows:
             branches:
               ignore: master
       - deploy:
+          
+      - azure/build-and-push-image:
           requires:
             - build-and-test
+          login-server-name: docker.io
+          registry-name: docker.io
+          repo: docker.io
           filters:
             branches:
               only: master
