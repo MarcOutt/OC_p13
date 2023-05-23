@@ -1,6 +1,7 @@
 version: 2.1
 orbs:
   python: circleci/python@1.5.0
+  azure-cli: circleci/azure-cli@0.1.5
 jobs:
   build-and-test:
     docker:
@@ -9,23 +10,23 @@ jobs:
       - checkout
       - python/install-packages:
           pkg-manager: pip
-
       - run:
           name: Run coverage
           command: pytest --cov=.
-
       - run:
           name: Run linting
           command: flake8
-
-
   deploy:
     docker:
       - image: cimg/python:3.7
     steps:
       - checkout
+      - azure-cli/install
       - run:
-          echo deploy
+          command: |
+          az login --service-principal --username $AZURE_CLIENT_ID
+          az webapp up -n LettingsSite -g LettingsSite_group --sku ASP-LettingsSitegroup-bb30 (F1: 1)
+          
 workflows:
   sample:
     jobs:
@@ -34,13 +35,6 @@ workflows:
             branches:
               ignore: master
       - deploy:
-          
-      - azure/build-and-push-image:
-          requires:
-            - build-and-test
-          login-server-name: docker.io
-          registry-name: docker.io
-          repo: docker.io
           filters:
             branches:
               only: master
