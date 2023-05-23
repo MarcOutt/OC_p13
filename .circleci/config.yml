@@ -1,7 +1,6 @@
 version: 2.1
 orbs:
   python: circleci/python@1.5.0
-  azure-cli: circleci/azure-cli
 jobs:
   build-and-test:
     docker:
@@ -21,7 +20,9 @@ jobs:
       - image: cimg/python:3.7
     steps:
       - checkout
-      - azure-cli/install
+      - run:
+          command: |
+            curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
       - run:
           command: |
             az login --service-principal --username $AZURE_CLIENT_ID
