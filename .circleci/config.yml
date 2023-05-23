@@ -24,8 +24,8 @@ jobs:
       - azure-cli/install
       - run:
           command: |
-          az login --service-principal --username $AZURE_CLIENT_ID
-          az webapp up -n LettingsSite -g LettingsSite_group --sku ASP-LettingsSitegroup-bb30 (F1: 1)
+            az login --service-principal --username $AZURE_CLIENT_ID
+            az webapp up -n LettingsSite -g LettingsSite_group --sku ASP-LettingsSitegroup-bb30 (F1: 1)
           
 workflows:
   sample:
