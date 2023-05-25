@@ -44,9 +44,7 @@ jobs:
             echo "Connecting to Azure"
             az login --service-principal --username $AZURE_CLIENT_ID --password $AZURE_CLIENT_SECRET --tenant $AZURE_TENANT_ID
             echo "Azure connection succesful"
-            echo "Create container"
-            az container create --resource-group Lettings_group-a2e0 --name lettings-app --image marcout/lettings_site:latest --registry-login-server docker.io --registry-username <DOCKER_USER> --registry-password <DOCKER_PASSWORD> --dns-name-label lettings-app0
-            echo "Container create successful"
+
 
 workflows:
   version: 2
