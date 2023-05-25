@@ -2,16 +2,17 @@ version: 2.1
 
 orbs:
   python: circleci/python@1.5.0
-  azure-cli: circleci/azure-cli@0.1.12
   
-
 jobs:
   test-azure-connection:
       docker:
         - image: circleci/python:3.7
       steps:
         - checkout
-        - azure-cli/install
+        - run:
+            name: Install Azure CLI
+            command: |
+              curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
         - run:
             name: Test Azure Connection
             command: az login --service-principal --username $AZURE_CLIENT_ID --password $AZURE_CLIENT_SECRET --tenant $AZURE_TENANT_ID
