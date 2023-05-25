@@ -28,6 +28,12 @@ jobs:
             docker build -t marcout/lettings_site:$DOCKER_TAG .
             echo $DOCKER_PASSWORD | docker login -u $DOCKER_USER --password-stdin
             docker push marcout/lettings_site:$DOCKER_TAG
+       - run: 
+          name: connection to azure
+          command: |
+            echo "Connecting to Azure"
+            az login --service-principal -u $AZURE_CLIENT_ID -p $AZURE_CLIENT_SECRET --tenant $AZURE_TENANT_ID
+            echo "Azure connection succesful"
 
   deploy:
     docker:
