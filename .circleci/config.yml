@@ -47,7 +47,6 @@ jobs:
             echo "Create container"
             az container create --resource-group Lettings_group-a2e0 --name lettings-app --image marcout/lettings_site:latest --registry-login-server docker.io --registry-username <DOCKER_USER> --registry-password <DOCKER_PASSWORD> --dns-name-label lettings-app0
             echo "Container create successful"
-            az container show --resource-group Lettings_group-a2e0 --name lettings-app --query ipAddress.fqdn --output tsv
 
 workflows:
   version: 2
