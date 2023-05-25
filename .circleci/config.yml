@@ -29,9 +29,14 @@ jobs:
             echo $DOCKER_PASSWORD | docker login -u $DOCKER_USER --password-stdin
             docker push marcout/lettings_site:$DOCKER_TAG
       - run:
+          name: Install Azure CLI
+          command: |
+            curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+      - run:
           name: Connection to Azure
           command: |
             echo "Connecting to Azure"
+            export PATH=$PATH:/root/bin # Ajoutez cette ligne pour ajouter le répertoire Azure CLI à la variable d'environnement PATH
             az login --service-principal -u $AZURE_CLIENT_ID -p $AZURE_CLIENT_SECRET --tenant $AZURE_TENANT_ID
             echo "Azure connection successful"
 
@@ -48,6 +53,7 @@ jobs:
           name: Deploy to Azure Container Instances (ACI)
           command: |
             echo "Connecting to Azure"
+            export PATH=$PATH:/root/bin # Ajoutez cette ligne pour ajouter le répertoire Azure CLI à la variable d'environnement PATH
             az login --service-principal --username $AZURE_CLIENT_ID --password $AZURE_CLIENT_SECRET --tenant $AZURE_TENANT_ID
             echo "Azure connection successful"
 
