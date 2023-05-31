@@ -2,6 +2,7 @@ version: 2.1
 
 orbs:
   python: circleci/python@1.5.0
+  azure-acr: circleci/azure-acr@2.1.0
 
 jobs:
   build-and-test:
@@ -28,17 +29,7 @@ jobs:
             docker build -t marcout/lettings_site:$DOCKER_TAG .
             echo $DOCKER_PASSWORD | docker login -u $DOCKER_USER --password-stdin
             docker push marcout/lettings_site:$DOCKER_TAG
-      - run:
-          name: Install Azure CLI
-          command: |
-            curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
-      - run:
-          name: Connection to Azure
-          command: |
-            echo "Connecting to Azure"
-            export PATH=$PATH:/root/bin # Ajoutez cette ligne pour ajouter le répertoire Azure CLI à la variable d'environnement PATH
-            az login --service-principal -u $AZURE_CLIENT_ID -p $AZURE_CLIENT_SECRET --tenant $AZURE_TENANT_ID
-            echo "Azure connection successful"
+
 
   deploy:
     docker:
@@ -78,9 +69,10 @@ workflows:
           filters:
             branches:
               only: master
-      - deploy:
-          requires:
-            - build-and-test
+      - azure/build-and-push-image:
+          login-server-name: lettings.azurecr.io
+          registry-name: lettings
+          repo: marcout/lettings
           filters:
             branches:
-              only: master
+                only: master
