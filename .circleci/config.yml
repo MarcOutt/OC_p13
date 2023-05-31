@@ -46,10 +46,10 @@ workflows:
           filters:
             branches:
               only: master
-      - azure/build-and-push-image:
+      - azure-acr/build-and-push-image:
           login-server-name: lettings.azurecr.io
           registry-name: lettings
           repo: marcout/lettings
           filters:
             branches:
-                only: master
+              only: master
