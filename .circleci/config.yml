@@ -43,11 +43,8 @@ jobs:
             aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
             aws configure set default.region $AWS_DEFAULT_REGION
       - run:
-          name: Push Docker image to ECR Public
-          command: |
-            aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/f9r8d7r0
-            docker tag marcout/lettings-app:latest public.ecr.aws/f9r8d7r0/lettings-app:$CIRCLE_SHA1
-            docker push public.ecr.aws/f9r8d7r0/lettings-app:latest
+          name: Check AWS connection
+            command: aws s3 ls
 
 workflows:
   version: 2
