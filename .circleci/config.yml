@@ -48,7 +48,8 @@ workflows:
  
 deploy-the-application:
   jobs:
-    -build-and-test:
+    -build-and-test
+    -deploy:
       filters:
         branches:
           only: master
