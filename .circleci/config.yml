@@ -46,12 +46,12 @@ workflows:
             branches:
               ignore: master
  
-deploy-the-application:
-  jobs:
-    -build-and-test
-    -deploy:
-      filters:
-        branches:
-          only: master
+  deploy-the-application:
+    jobs:
+      -build-and-test
+      -deploy:
+        filters:
+          branches:
+            only: master
 
 
