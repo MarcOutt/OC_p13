@@ -44,7 +44,9 @@ jobs:
             aws configure set default.region $AWS_DEFAULT_REGION
       - run:
           name: Pull Docker image from Docker Hub
-          command: docker pull marcout/lettings-app:latest
+          command: |
+            echo $DOCKER_PASSWORD | docker login -u $DOCKER_USER --password-stdin
+            docker pull marcout/lettings-app:latest
 
 workflows:
   version: 2
