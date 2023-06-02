@@ -2,6 +2,7 @@ version: 2.1
 
 orbs:
   python: circleci/python@1.5.0
+  aws-cli: circleci/aws-cli@0.1.11
 
 jobs:
   build-and-test:
@@ -23,11 +24,9 @@ jobs:
       - run:
           name: Build Docker image
           command: |
-            DOCKER_TAG=$(git rev-parse HEAD)
-            echo "DOCKER_TAG: $DOCKER_TAG"
-            docker build -t marcout/lettings_site:$DOCKER_TAG .
+            docker build -t marcout/lettings_site:$CIRCLE_SHA1 .
             echo $DOCKER_PASSWORD | docker login -u $DOCKER_USER --password-stdin
-            docker push marcout/lettings_site:$DOCKER_TAG
+            docker push marcout/lettings_site:$CIRCLE_SHA1
   deploy:
     docker:
       - image: cimg/python:3.7
@@ -35,10 +34,20 @@ jobs:
       - checkout
       - python/install-packages:
           pkg-manager: pip
-      - run: echo deploy
+      - run:
+        command: |
+          sudo apt update
+          sudo apt -y --qq install awscli
+      - aws-cli/configure
+      - run:
+        command: |
+          aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/f9r8d7r0
+          docker tag marcout/lettings-app:latest public.ecr.aws/f9r8d7r0/lettings-app:$CIRCLE_SHA1
+          docker push public.ecr.aws/f9r8d7r0/lettings-app:latest
+      
+          
 
 workflows:
-  version: 2
   test-the-application:
     jobs:
       - build-and-test:
