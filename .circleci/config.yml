@@ -44,7 +44,7 @@ jobs:
             aws configure set default.region $AWS_DEFAULT_REGION
       - run:
           name: Check AWS connection
-            command: aws s3 ls
+          command: aws s3 ls
 
 workflows:
   version: 2
