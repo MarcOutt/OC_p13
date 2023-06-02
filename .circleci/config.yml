@@ -35,19 +35,22 @@ jobs:
       - python/install-packages:
           pkg-manager: pip
       - run:
-        command: |
-          sudo apt update
-          sudo apt -y --qq install awscli
-      - aws-cli/configure
+          name: Install AWS CLI
+          command: |
+            sudo apt update
+            sudo apt -y --qq install awscli
       - run:
-        command: |
-          aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/f9r8d7r0
-          docker tag marcout/lettings-app:latest public.ecr.aws/f9r8d7r0/lettings-app:$CIRCLE_SHA1
-          docker push public.ecr.aws/f9r8d7r0/lettings-app:latest
-      
-          
+          name: Configure AWS CLI
+          command: aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID && aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY && aws configure set default.region $AWS_REGION
+      - run:
+          name: Push Docker image to ECR Public
+          command: |
+            aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/f9r8d7r0
+            docker tag marcout/lettings-app:latest public.ecr.aws/f9r8d7r0/lettings-app:$CIRCLE_SHA1
+            docker push public.ecr.aws/f9r8d7r0/lettings-app:latest
 
 workflows:
+  version: 2
   test-the-application:
     jobs:
       - build-and-test:
@@ -62,6 +65,3 @@ workflows:
           filters:
             branches:
               only: master
-
-
-
