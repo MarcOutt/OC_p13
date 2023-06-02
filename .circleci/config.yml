@@ -26,9 +26,9 @@ jobs:
       - run:
           name: Build Docker image
           command: |
-            docker build -t marcout/lettings_site:$CIRCLE_SHA1 .
+            docker build -t marcout/lettings_app:$CIRCLE_SHA1 .
             echo $DOCKER_PASSWORD | docker login -u $DOCKER_USER --password-stdin
-            docker push marcout/lettings_site:$CIRCLE_SHA1
+            docker push marcout/lettings_app:$CIRCLE_SHA1
 
   deploy:
     docker:
@@ -43,8 +43,8 @@ jobs:
             aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
             aws configure set default.region $AWS_DEFAULT_REGION
       - run:
-          name: Check AWS connection
-          command: aws s3 ls
+          name: Pull Docker image from Docker Hub
+          command: docker pull marcout/lettings-app:latest
 
 workflows:
   version: 2
