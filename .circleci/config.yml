@@ -2,7 +2,7 @@ version: 2.1
 
 orbs:
   python: circleci/python@1.5.0
-  aws-cli : circleci/aws-cli@3.1
+  aws-cli: circleci/aws-cli@3.1
   aws-ecr: circleci/aws-ecr@8.1
   aws-ecs: circleci/aws-ecs@3.2
 
@@ -29,13 +29,25 @@ jobs:
             docker build -t marcout/lettings_site:$CIRCLE_SHA1 .
             echo $DOCKER_PASSWORD | docker login -u $DOCKER_USER --password-stdin
             docker push marcout/lettings_site:$CIRCLE_SHA1
+
   deploy:
-    - run:
-      name: Configure AWS CLI
-        command: |
-          aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
-          aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
-          aws configure set default.region $AWS_DEFAULT_REGION
+    docker:
+      - image: cimg/python:3.7
+    steps:
+      - checkout
+      - aws-cli/install
+      - run:
+          name: Configure AWS CLI
+          command: |
+            aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
+            aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
+            aws configure set default.region $AWS_DEFAULT_REGION
+      - run:
+          name: Push Docker image to ECR Public
+          command: |
+            aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/f9r8d7r0
+            docker tag marcout/lettings-app:latest public.ecr.aws/f9r8d7r0/lettings-app:$CIRCLE_SHA1
+            docker push public.ecr.aws/f9r8d7r0/lettings-app:latest
 
 workflows:
   version: 2
@@ -48,6 +60,7 @@ workflows:
  
   deploy-the-application:
     jobs:
+      - build-and-test
       - deploy:
           filters:
             branches:
