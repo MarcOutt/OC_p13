@@ -49,7 +49,7 @@ jobs:
           name: Pull Docker image from Docker Hub
           command: |
             echo $DOCKER_PASSWORD | docker login -u $DOCKER_USER --password-stdin
-            docker pull marcout/lettings-app:latest
+            docker pull marcout/lettings-app:$CIRCLE_SHA1
 
 workflows:
   version: 2
