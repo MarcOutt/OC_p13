@@ -30,40 +30,10 @@ jobs:
             echo $DOCKER_PASSWORD | docker login -u $DOCKER_USER --password-stdin
             docker push marcout/lettings_app
 
-  deploy:
-    docker:
-      - image: cimg/python:3.7
-    steps:
-      - checkout
-      - aws-cli/install
-      - setup_remote_docker:
-          version: 20.10.14
-          docker_layer_caching: true
-      - run:
-          name: Configure AWS CLI
-          command: |
-            aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
-            aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
-            aws configure set default.region $AWS_DEFAULT_REGION
-      - run:
-          name: Pull Docker image from Docker Hub
-          command: |
-            echo $DOCKER_PASSWORD | docker login -u $DOCKER_USER --password-stdin
-            docker pull marcout/lettings-app
 
 workflows:
   version: 2
   test-the-application:
     jobs:
       - build-and-test:
-          filters:
-            branches:
-              ignore: master
- 
-  deploy-the-application:
-    jobs:
-      - build-and-test
-      - deploy:
-          filters:
-            branches:
-              only: master
+
