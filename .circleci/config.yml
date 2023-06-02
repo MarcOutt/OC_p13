@@ -1,30 +1,56 @@
 version: 2.1
 
-jobs:
-  test-azure-connection:
-    docker:
-      - image: circleci/python:3.7
+orbs:
+  python: circleci/python@1.5.0
 
+jobs:
+  build-and-test:
+    docker:
+      - image: cimg/python:3.7
     steps:
       - checkout
-
+      - python/install-packages:
+          pkg-manager: pip
       - run:
-          name: Install Azure CLI
-          command: |
-            curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
-
+          name: Run coverage
+          command: pytest --cov=.
       - run:
-          name: Connect to Azure
-          command: |
-            az login --username $AZURE_USERNAME --password $AZURE_PASSWORD
-
+          name: Run linting
+          command: flake8
+      - setup_remote_docker:
+          version: 20.10.14
+          docker_layer_caching: true
       - run:
-          name: Test Azure connection
+          name: Build Docker image
           command: |
-            az account show
+            DOCKER_TAG=$(git rev-parse HEAD)
+            echo "DOCKER_TAG: $DOCKER_TAG"
+            docker build -t marcout/lettings_site:$DOCKER_TAG .
+            echo $DOCKER_PASSWORD | docker login -u $DOCKER_USER --password-stdin
+            docker push marcout/lettings_site:$DOCKER_TAG
+  deploy:
+    docker:
+      - image: cimg/python:3.7
+    steps:
+      - checkout
+      - python/install-packages:
+          pkg-manager: pip
+      - run: echo deploy
 
 workflows:
   version: 2
-  test-azure-connection:
+  test-the-application:
     jobs:
-      - test-azure-connection
+      - build-and-test:
+          filters:
+            branches:
+              ignore: master
+ 
+deploy-the-application:
+  jobs:
+    -build-and-test:
+      filters:
+        branches:
+          only: master
+
+
