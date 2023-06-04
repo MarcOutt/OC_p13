@@ -1,30 +1,39 @@
 version: 2.1
 
-jobs:
-  test-azure-connection:
-    docker:
-      - image: circleci/python:3.7
+orbs:
+  python: circleci/python@1.5.0
+  aws-cli: circleci/aws-cli@3.1
+  aws-ecr: circleci/aws-ecr@8.1
+  aws-ecs: circleci/aws-ecs@3.2
 
+jobs:
+  build-and-test:
+    docker:
+      - image: cimg/python:3.7
     steps:
       - checkout
-
+      - python/install-packages:
+          pkg-manager: pip
       - run:
-          name: Install Azure CLI
-          command: |
-            curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
-
+          name: Run coverage
+          command: pytest --cov=.
       - run:
-          name: Connect to Azure
-          command: |
-            az login --username $AZURE_USERNAME --password $AZURE_PASSWORD
-
+          name: Run linting
+          command: flake8
+      - setup_remote_docker:
+          version: 20.10.14
+          docker_layer_caching: true
       - run:
-          name: Test Azure connection
+          name: Build Docker image
           command: |
-            az account show
+            docker build -t marcout/lettings_app .
+            echo $DOCKER_PASSWORD | docker login -u $DOCKER_USER --password-stdin
+            docker push marcout/lettings_app
+
 
 workflows:
   version: 2
-  test-azure-connection:
+  test-the-application:
     jobs:
-      - test-azure-connection
+      - build-and-test
+
