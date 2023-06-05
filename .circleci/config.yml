@@ -58,7 +58,7 @@ jobs:
             aws apprunner update-service \
               --service-arn "$SERVICE_ARN" \
               --source-configuration "ImageRepository={ImageIdentifier=$ECR_PUBLIC_ARN:${SHA1},ImageRepositoryType=ECR_PUBLIC}" \
-              --region us-east-1
+              --region eu-west-1
            
 workflows:
   version: 2
