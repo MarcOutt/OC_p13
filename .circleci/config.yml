@@ -24,9 +24,9 @@ jobs:
       - run:
           name: Build Docker image
           command: |
-            docker build -t marcout/lettings_app .
+            docker build -t lettings_app .
             echo $DOCKER_PASSWORD | docker login -u $DOCKER_USER --password-stdin
-            docker push marcout/lettings_app
+            docker push lettings_app
 
   deploy:
     executor: aws-cli/default
@@ -40,8 +40,8 @@ jobs:
           name: Push Docker image to ECR
           command: |
             aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/f9r8d7r0
-            docker tag marcout/lettings-app:latest public.ecr.aws/f9r8d7r0/marcout/lettings-app:latest
-            docker push public.ecr.aws/f9r8d7r0/marcout/lettings-app:latest
+            docker tag lettings-app:latest public.ecr.aws/f9r8d7r0/lettings-app:latest
+            docker push public.ecr.aws/f9r8d7r0/lettings-app:latest
 
 workflows:
   version: 2
