@@ -21,14 +21,6 @@ jobs:
       - setup_remote_docker:
           version: 20.10.14
           docker_layer_caching: true
-      - run:
-          name: Build Docker image
-          command: |
-            SHA1="$CIRCLE_SHA1"
-            docker build -t marcout/lettings-app .
-            echo $DOCKER_PASSWORD | docker login -u $DOCKER_USER --password-stdin
-            docker tag marcout/lettings-app:latest marcout/lettings-app:"$SHA1"
-            docker push marcout/lettings-app:"$SHA1"
 
   deploy:
     executor: aws-cli/default
@@ -38,6 +30,14 @@ jobs:
           docker_layer_caching: true
       - checkout
       - aws-cli/setup
+      - run:
+        name: Build Docker image
+        command: |
+          SHA1="$CIRCLE_SHA1"
+          docker build -t marcout/lettings-app .
+          echo $DOCKER_PASSWORD | docker login -u $DOCKER_USER --password-stdin
+          docker tag marcout/lettings-app:latest marcout/lettings-app:"$SHA1"
+          docker push marcout/lettings-app:"$SHA1"
       - run:
           name: Push Docker image to ECR
           command: |
@@ -64,7 +64,20 @@ jobs:
            
 workflows:
   version: 2
-  test-the-application:
+  sample:
     jobs:
-      - build-and-test
-      - deploy
+      - test:
+          filters:
+            branches:
+              ignore: master
+
+  master-workflow:
+    jobs:
+      - test:
+          filters:
+            branches:
+              only: master
+      - deploy:
+          filters:
+            branches:
+              only: master
