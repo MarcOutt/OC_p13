@@ -42,7 +42,7 @@ jobs:
           name: Push Docker image to ECR
           command: |
             aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/f9r8d7r0
-            docker tag marcout/lettings-app:latest public.ecr.aws/f9r8d7r0/lettings-app:latest
+            docker tag marcout/lettings-app:"$SHA1" public.ecr.aws/f9r8d7r0/lettings-app:"$SHA1"
             docker push public.ecr.aws/f9r8d7r0/lettings-app:latest
 
 workflows:
