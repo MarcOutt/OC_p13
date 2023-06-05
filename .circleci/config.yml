@@ -24,9 +24,11 @@ jobs:
       - run:
           name: Build Docker image
           command: |
-            docker build -t lettings_app .
+            SHA1="$CIRCLE_SHA1"
+            docker build -t marcout/lettings_app .
             echo $DOCKER_PASSWORD | docker login -u $DOCKER_USER --password-stdin
-            docker push lettings_app
+            docker tag marcout/lettings-app:latest marcout/lettings-app:"$SHA1"
+            docker push marcout/lettings-app:"$SHA1"
 
   deploy:
     executor: aws-cli/default
