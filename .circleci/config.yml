@@ -28,21 +28,20 @@ jobs:
             echo $DOCKER_PASSWORD | docker login -u $DOCKER_USER --password-stdin
             docker push marcout/lettings_app
 
-    deploy:
-      executor: python/default
-      steps:
-        - checkout
-        - run:
-            name: Install AWS CLI
-            command: |
-              pip install awscli
-        - run:
-            name: Configure AWS credentials
-            command: |
-              aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
-              aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
-              aws configure set default.region $AWS_REGION
-
+  deploy:
+    executor: python/default
+    steps:
+      - checkout
+      - run:
+          name: Install AWS CLI
+          command: |
+            pip install awscli
+      - run:
+          name: Configure AWS credentials
+          command: |
+            aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
+            aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
+            aws configure set default.region $AWS_REGION
         
 workflows:
   version: 2
