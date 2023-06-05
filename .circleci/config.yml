@@ -55,10 +55,12 @@ jobs:
             SHA1="$CIRCLE_SHA1"
             SERVICE_ARN="arn:aws:apprunner:eu-west-1:935486624820:service/Lettings/e4e745a7cfc14b7bb3a647344759b057"
             ECR_PUBLIC_ARN="public.ecr.aws/f9r8d7r0/lettings-app:"
+            IMAGE_URL="$ECR_PUBLIC_ARN$SHA1"
             aws apprunner update-service \
               --service-arn "$SERVICE_ARN" \
-              --source-configuration "ImageRepository={ImageIdentifier=$ECR_PUBLIC_ARN:${SHA1},ImageRepositoryType=ECR_PUBLIC}" \
+              --source-configuration "ImageRepository={ImageIdentifier=$IMAGE_URL,ImageRepositoryType=ECR_PUBLIC}" \
               --region eu-west-1
+
            
 workflows:
   version: 2
