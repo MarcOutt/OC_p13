@@ -25,7 +25,7 @@ jobs:
           name: Build Docker image
           command: |
             SHA1="$CIRCLE_SHA1"
-            docker build -t marcout/lettings_app .
+            docker build -t marcout/lettings-app .
             echo $DOCKER_PASSWORD | docker login -u $DOCKER_USER --password-stdin
             docker tag marcout/lettings-app:latest marcout/lettings-app:"$SHA1"
             docker push marcout/lettings-app:"$SHA1"
