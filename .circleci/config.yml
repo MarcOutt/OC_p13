@@ -6,8 +6,6 @@ orbs:
 
 jobs:
   build-and-test:
-    docker:
-      - image: cimg/python:3.7
     steps:
       - checkout
       - python/install-packages:
@@ -25,6 +23,8 @@ jobs:
   deploy:
     executor: aws-cli/default
     steps:
+      docker:
+        - image: cimg/python:3.7
       - setup_remote_docker:
           version: 20.10.14
           docker_layer_caching: true
@@ -64,7 +64,7 @@ jobs:
            
 workflows:
   version: 2
-  sample:
+  test:
     jobs:
       - test:
           filters:
