@@ -34,10 +34,10 @@ jobs:
     executor: python/default
     steps:
       - checkout
-      - python/install-packages:
-          pkg-manager: pip
-          packages:
-            - awscli
+      - run:
+          name: Install AWS CLI
+          command: |
+            pip install awscli
       - run:
           name: Configure AWS credentials
           command: |
@@ -50,6 +50,7 @@ jobs:
             aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/f9r8d7r0
             docker tag marcout/lettings-app:latest public.ecr.aws/f9r8d7r0/marcout/lettings-app:latest
             docker push public.ecr.aws/f9r8d7r0/marcout/lettings-app:latest
+
         
 workflows:
   version: 2
