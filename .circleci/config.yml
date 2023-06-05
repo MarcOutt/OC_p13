@@ -54,8 +54,9 @@ jobs:
           name: Push image ECR to App Runner
           command: |
             SHA1="$CIRCLE_SHA1"
+            SERVICE_ARN="arn:aws:apprunner:eu-west-1:935486624820:service/Lettings/e4e745a7cfc14b7bb3a647344759b057"
             aws apprunner update-service \
-              --service-id arn:aws:apprunner:eu-west-1:935486624820:service/Lettings/e4e745a7cfc14b7bb3a647344759b057 \
+              --service-id "$SERVICE_ARN" \
               --source-configuration "ImageRepository={RepositoryUrl=public.ecr.aws/f9r8d7r0/lettings-app,ImageIdentifier=${SHA1}}" \
               --region us-east-1
 
