@@ -57,7 +57,7 @@ jobs:
             ECR_PUBLIC_ARN="arn:aws:ecr-public:us-east-1:123456789012:repository/my-repo"
             aws apprunner update-service \
               --service-arn "$SERVICE_ARN" \
-              --source-configuration "ImageRepository=$ECR_PUBLIC_ARN:${SHA1}" \
+              --source-configuration "ImageRepository={ImageIdentifier=$ECR_PUBLIC_ARN:${SHA1},ImageRepositoryType=ECR_PUBLIC}" \
               --region us-east-1
            
 workflows:
