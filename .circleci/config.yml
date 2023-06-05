@@ -30,29 +30,29 @@ jobs:
             echo $DOCKER_PASSWORD | docker login -u $DOCKER_USER --password-stdin
             docker push marcout/lettings_app
 
-deploy:
-  docker:
-    - image: cimg/python:3.7
-  steps:
-    - checkout
-    - python/install-packages:
-        pkg-manager: pip
-    - run:
-      name: install AWS CLI
-      command: |
-        sudo apt-get install -y awscli
-    - run:
-      name: Configure AWS credentials
-      command: |
-        aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
-        aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
-        aws configure set default.region $AWS_REGION
-    - run:
-      name: Push Docker image to ECR
-      command: |
-        aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/f9r8d7r0
-        docker tag marcout/lettings-app:latest public.ecr.aws/f9r8d7r0/marcout/lettings-app:latest
-        docker push public.ecr.aws/f9r8d7r0/marcout/lettings-app:latest
+  deploy:
+    docker:
+      - image: cimg/python:3.7
+    steps:
+      - checkout
+      - python/install-packages:
+          pkg-manager: pip
+      - run:
+        name: install AWS CLI
+        command: |
+          sudo apt-get install -y awscli
+      - run:
+        name: Configure AWS credentials
+        command: |
+          aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
+          aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
+          aws configure set default.region $AWS_REGION
+      - run:
+        name: Push Docker image to ECR
+        command: |
+          aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/f9r8d7r0
+          docker tag marcout/lettings-app:latest public.ecr.aws/f9r8d7r0/marcout/lettings-app:latest
+          docker push public.ecr.aws/f9r8d7r0/marcout/lettings-app:latest
         
 workflows:
   version: 2
