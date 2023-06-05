@@ -2,7 +2,7 @@ version: 2.1
 
 orbs:
   python: circleci/python@1.5.0
-  aws-cli: circleci/aws-cli@3.1
+  aws-cli: circleci/aws-cli@2.0.6
 
 jobs:
   build-and-test:
@@ -29,19 +29,13 @@ jobs:
             docker push marcout/lettings_app
 
   deploy:
-    executor: python/default
-    steps:
-      - checkout
-      - run:
-          name: Install AWS CLI
-          command: |
-            pip install awscli
-      - run:
-          name: Configure AWS credentials
-          command: |
-            aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
-            aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
-            aws configure set default.region $AWS_REGION
+    aws-cli-cred-setup:
+      executor: aws-cli/default
+      steps:
+        - aws-cli/setup:
+            aws-access-key-id: AWS_ACCESS_KEY_ID
+            aws-secret-access-key: AWS_SECRET_ACCESS_KEY
+            aws-region: AWS_DEFAULT_REGION
         
 workflows:
   version: 2
