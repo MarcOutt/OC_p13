@@ -73,6 +73,8 @@ workflows:
             branches:
               only: master
       - deploy:
+          requires:
+            - test
           filters:
             branches:
               only: master
