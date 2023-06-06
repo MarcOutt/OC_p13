@@ -25,20 +25,20 @@ jobs:
     steps:
       docker:
         - image: cimg/python:3.7
-      - setup_remote_docker:
+        - setup_remote_docker:
           version: 20.10.14
           docker_layer_caching: true
-      - checkout
-      - aws-cli/setup
-      - run:
-        name: Build Docker image
-        command: |
-          SHA1="$CIRCLE_SHA1"
-          docker build -t marcout/lettings-app .
-          echo $DOCKER_PASSWORD | docker login -u $DOCKER_USER --password-stdin
-          docker tag marcout/lettings-app:latest marcout/lettings-app:"$SHA1"
-          docker push marcout/lettings-app:"$SHA1"
-      - run:
+        - checkout
+        - aws-cli/setup
+        - run:
+          name: Build Docker image
+          command: |
+            SHA1="$CIRCLE_SHA1"
+            docker build -t marcout/lettings-app .
+            echo $DOCKER_PASSWORD | docker login -u $DOCKER_USER --password-stdin
+            docker tag marcout/lettings-app:latest marcout/lettings-app:"$SHA1"
+            docker push marcout/lettings-app:"$SHA1"
+        - run:
           name: Push Docker image to ECR
           command: |
             SHA1="$CIRCLE_SHA1"
@@ -49,7 +49,7 @@ jobs:
             aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/f9r8d7r0
             docker tag marcout/lettings-app:"$SHA1" public.ecr.aws/f9r8d7r0/lettings-app:"${SHA1}"
             docker push public.ecr.aws/f9r8d7r0/lettings-app:"${SHA1}"
-      - run:
+        - run:
           name: Push image ECR to App Runner
           command: |
             SHA1="$CIRCLE_SHA1"
