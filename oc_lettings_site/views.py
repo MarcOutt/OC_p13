@@ -3,7 +3,7 @@ from django.shortcuts import render
 
 def trigger_error(request):
     division_by_zero = 1 / 0
-
+    return division_by_zero
 
 # Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque molestie quam lobortis leo
 # consectetur ullamcorper non id est. Praesent dictum, nulla eget feugiat sagittis,
