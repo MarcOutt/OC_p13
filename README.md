@@ -76,4 +76,38 @@ Utilisation de PowerShell, comme ci-dessus sauf :
 - Pour activer l'environnement virtuel, `.\venv\Scripts\Activate.ps1` 
 - Remplacer `which <my-command>` par `(Get-Command <my-command>).Path`
 
-#### Deploiement
+## Deploiement
+
+### Configuration requise:
+- Un serveur compatible Docker (comme un serveur Linux) avec Docker installé.
+- Base de données compatible avec Django configurée et accessible.
+- Port réseau 8000 ouvert pour le trafic HTTP.
+
+### Etapes pour effectuer le déploiment:
+
+#### Configuration de l'environnement
+- Configurez un serveur compatible Docker avec les mises à jour système.
+- Installez Docker sur le serveur.
+
+#### Créer une image
+- S'identifier sur Docker `docker login`
+- Créer l'image `docker build -t marcout/lettings-app .`
+- Créer un tag `docker tag marcout/lettings-app:latest marcout/lettings-app:"$CIRCLE_SHA1"`
+- Envoyer l'image dans docker `docker push marcout/lettings-app:"$SHA1`
+
+#### Récupération de l'image Docker de l'application
+- S'identifier sur Docker `docker login`
+- Récupérer la version de l'image Docker que vous souhaitez utiliser : `docker pull marcout/lettings-app:latest`
+
+
+#### Envoyer l'image dans le container Elastic Register
+- S'identifier sur Amazon Web Application : `aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/f9r8d7r0`
+- Taguer l'image pour l'ECR`docker tag marcout/lettings-app:"$SHA1" public.ecr.aws/f9r8d7r0/lettings-app:"${SHA1}"`
+- Envoyer l'image à ECR`docker push public.ecr.aws/f9r8d7r0/lettings-app:"${SHA1}"`
+
+#### Déployer l'image ECR
+- `aws apprunner update-service \
+              -service-arn "arn:aws:apprunner:eu-west-1:935486624820:service/Lettings/e4e745a7cfc14b7bb3a647344759b057" \
+              -source-configuration "ImageRepository=             {ImageIdentifier=$ECR_PUBLIC_ARN$SHA1,ImageRepositoryType="public.ecr.aws/f9r8d7r0/lettings-app:"}" \
+              --region eu-west-1`
+
