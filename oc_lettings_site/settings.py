@@ -1,7 +1,7 @@
 import os
 import sentry_sdk
 from sentry_sdk.integrations.django import DjangoIntegration
-from decouple import Config, RepositoryEnv
+from decouple import Config
 
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
