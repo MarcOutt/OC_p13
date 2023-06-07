@@ -78,36 +78,35 @@ Utilisation de PowerShell, comme ci-dessus sauf :
 
 ## Deploiement
 
-### Configuration requise:
+### Fonctionnement du déploiement
+Le déploiement de l'application est effectué à l'aide de Docker et AWS App Runner. Docker est utilisé pour créer une image conteneurisée de l'application, puis l'image est envoyée à AWS ECR (Elastic Container Registry). Ensuite, AWS App Runner récupère l'image depuis ECR et déploie l'application sur un serveur géré par AWS.
+
+### Configuration requise
+
+Avant de procéder au déploiement, assurez-vous d'avoir les éléments suivants :
 - Un serveur compatible Docker (comme un serveur Linux) avec Docker installé.
-- Base de données compatible avec Django configurée et accessible.
-- Port réseau 8000 ouvert pour le trafic HTTP.
+- Une base de données compatible avec Django configurée et accessible.
+- Le port réseau 8000 doit être ouvert pour le trafic HTTP.
+- Un compte AWS avec les autorisations nécessaires pour créer et gérer des ressources telles que ECR et App Runner.
 
-### Etapes pour effectuer le déploiment:
+### Étapes de déploiement
+1. Configurez un serveur compatible Docker avec les mises à jour système.
+2. Installez Docker sur le serveur.
+3. Créez une image Docker de l'application en utilisant la commande `docker build -t marcout/lettings-app .`.
+4. Envoyez l'image Docker vers Docker Hub en utilisant la commande `docker push marcout/lettings-app:"$SHA1"`.
+5. Récupérez l'image Docker de l'application en utilisant la commande `docker pull marcout/lettings-app:latest`.
+6. Connectez-vous à AWS et configurez les informations d'identification nécessaires.
+7. Connectez-vous à AWS ECR Public en utilisant la commande `aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/f9r8d7r0`.
+8. Taguez l'image Docker pour ECR en utilisant la commande `docker tag marcout/lettings-app:"$SHA1" public.ecr.aws/f9r8d7r0/lettings-app:"${SHA1}"`.
+9. Envoyez l'image Docker à ECR en utilisant la commande `docker push public.ecr.aws/f9r8d7r0/lettings-app:"${SHA1}"`.
+10. Déployez l'image ECR sur AWS App Runner en utilisant la commande fournie.
 
-#### Configuration de l'environnement
-- Configurez un serveur compatible Docker avec les mises à jour système.
-- Installez Docker sur le serveur.
+### Circle CI/CD
 
-#### Créer une image
-- S'identifier sur Docker `docker login`
-- Créer l'image `docker build -t marcout/lettings-app .`
-- Créer un tag `docker tag marcout/lettings-app:latest marcout/lettings-app:"$CIRCLE_SHA1"`
-- Envoyer l'image dans docker `docker push marcout/lettings-app:"$SHA1`
+- Pour chaque modification au niveau de la branche master, circle ci/cd permettra le déclenchement de la conteneurisation et le déploiment du site automatiquement. Le déploimenent se déclenche si seulement si la compilation et les tests sont réussies
+- Concernant les modifications d'une branche secondaire, circle ci/cd lancera les tests pour vérifier si les fonctionnalitées du site sont fonctionnelles.
 
-#### Récupération de l'image Docker de l'application
-- S'identifier sur Docker `docker login`
-- Récupérer la version de l'image Docker que vous souhaitez utiliser : `docker pull marcout/lettings-app:latest`
+Pour avoir plus d'informations concernant le processus, aller dans le dossier .cirlceci et ouvrir le fichier config.yml
 
 
-#### Envoyer l'image dans le container Elastic Register
-- S'identifier sur Amazon Web Application : `aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/f9r8d7r0`
-- Taguer l'image pour l'ECR`docker tag marcout/lettings-app:"$SHA1" public.ecr.aws/f9r8d7r0/lettings-app:"${SHA1}"`
-- Envoyer l'image à ECR`docker push public.ecr.aws/f9r8d7r0/lettings-app:"${SHA1}"`
-
-#### Déployer l'image ECR
-- `aws apprunner update-service \
-              -service-arn "arn:aws:apprunner:eu-west-1:935486624820:service/Lettings/e4e745a7cfc14b7bb3a647344759b057" \
-              -source-configuration "ImageRepository=             {ImageIdentifier=$ECR_PUBLIC_ARN$SHA1,ImageRepositoryType="public.ecr.aws/f9r8d7r0/lettings-app:"}" \
-              --region eu-west-1`
 
