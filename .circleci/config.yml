@@ -66,6 +66,8 @@ jobs:
             sentry-cli releases set-commits $SENTRY_RELEASE --auto
             sentry-cli releases finalize $SENTRY_RELEASE
             sentry-cli releases deploys $SENTRY_RELEASE new -e $SENTRY_ENVIRONMENT
+            sentry-cli releases new -p $SENTRY_PROJECT $SENTRY_RELEASE --log-level=debug
+
 
 workflows:
   version: 2
