@@ -37,6 +37,9 @@ Dans le reste de la documentation sur le développement local, il est supposé q
 - `cd /path/to/Python-OC-Lettings-FR`
 - `source venv/bin/activate`
 - `pip install --requirement requirements.txt`
+- Créer un fichier .env
+- Récupérer la clef 
+- Ajouter la variable d'environnement API_KEY=DEMANDER_LA_CLEF
 - `python manage.py runserver`
 - Aller sur `http://localhost:8000` dans un navigateur.
 - Confirmer que le site fonctionne et qu'il est possible de naviguer (vous devriez voir plusieurs profils et locations).
@@ -108,5 +111,24 @@ Avant de procéder au déploiement, assurez-vous d'avoir les éléments suivants
 
 Pour avoir plus d'informations concernant le processus, aller dans le dossier .cirlceci et ouvrir le fichier config.yml
 
+### Configuration de la journalisation avec Sentry
 
+Pour configurer la journalisation avec Sentry dans votre déploiement, suivez les étapes ci-dessous :
 
+1. Créez un compte sur [Sentry](https://sentry.io/) si vous n'en avez pas déjà un.
+2. Une fois que vous avez créé le projet, vous recevrez une clé d'authentification (DSN). Cette clé sera utilisée pour configurer la journalisation de votre application.
+3. **Ne stockez pas la clé d'authentification Sentry ou d'autres données sensibles dans le code source**. Utilisez plutôt des variables d'environnement pour configurer ces informations en toute sécurité.
+4. Allez dans le fichier .env et ajouter la variable d'environnement `SENTRY_DSN=VOTRE_CLEF`
+5. Dans votre fichier de configuration Django (`settings.py`), ajoutez les lignes suivantes pour configurer la journalisation avec Sentry :
+
+```python
+import sentry_sdk
+from sentry_sdk.integrations.django import DjangoIntegration
+
+sentry_sdk.init(
+    dsn=os.environ.get('SENTRY_DSN'),  # Utilisez la variable d'environnement pour configurer la clé d'authentification Sentry
+    integrations=[DjangoIntegration()],
+    traces_sample_rate=1.0,  # Pour activer la journalisation des traces de performances
+    send_default_pii=True  # Pour inclure les informations d'identification de l'utilisateur dans les rapports d'erreur
+)
+```
