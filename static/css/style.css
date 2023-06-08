@@ -1,0 +1,96 @@
+@import "reset.css";
+
+body {
+    font-family: Helvetica, sans-serif;
+    background-color : white;
+    width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+h1 {
+    font-size: 55px;
+    width: 100%;
+    color: brown;
+    text-align: center;
+}
+
+h2 {
+    font-size: 35px;
+    width: 100%;
+    color: Brown;
+    margin-bottom: 20px;
+}
+p {
+    margin-bottom: 10px;
+}
+a {
+    text-decoration: none;
+    color: black;
+    margin-right: 20px;
+    margin-left: 20px;
+}
+
+li {
+    font-size: 25px;
+    margin-bottom: 20px;
+}
+
+div {
+    font-size: 30px;
+    color: black;
+}
+
+#title {
+    display: flex;
+    align-items: center;
+    padding-top: 30px;
+}
+
+#title img {
+    width: 20%;
+    height: 20%;
+}
+
+#nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 25px;
+  margin-bottom: 50px;
+  border-top: 2px solid brown;
+  border-bottom: 2px solid brown;
+}
+
+#nav div {
+  flex: 1;
+  text-align: center;
+  padding: 10px;
+}
+
+#content {
+    height: 600px;
+}
+
+#footer-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 15px;
+  margin-bottom: 50px;
+  border-top: 1px solid brown;
+}
+
+#footer-content div {
+  font-size: 20px;
+  flex: 1;
+  text-align: center;
+  padding-top: 10px;
+}
+#social-icons img {
+    width: 15%;
+}
+a:hover {
+    cursor: pointer;
+    color: brown;
+}

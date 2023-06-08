@@ -86,7 +86,7 @@ workflows:
               only: master
       - deploy:
           requires:
-            - test
+            - css
           filters:
             branches:
               only: master

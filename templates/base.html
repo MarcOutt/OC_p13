@@ -1,0 +1,56 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+  {% block title %}
+    <title>Accueil</title>
+    {% endblock %}
+</head>
+
+<body>
+<div id="title">
+    <img src="{% static 'images/logo.png' %}" alt="Logo de l'entreprise">
+    {% block header %}
+    {% endblock %}
+</div>
+<div id="nav">
+    {% block nav %}
+    {% endblock %}
+</div>
+<div id="content">
+    {% block content %}
+    {% endblock %}
+</div>
+
+</body>
+<footer>
+  <div id="footer-content">
+    <div>
+        <p>© 2023 Orange County Lettings.</p>
+        <p>Tous droits réservés.</p>
+    </div>
+  <div>
+      <div>
+        <a href="{% url 'index' %}">Accueil</a>
+      </div>
+      <div>
+        <a href="#">À propos</a>
+      </div>
+      <div>
+        <a href="#">Contact</a>
+      </div>
+  </div>
+
+
+    <div id="social-icons">
+      <a href="#"><img src="{% static 'images/facebook.png' %}" alt="Facebook"></a>
+      <a href="#"><img src="{% static 'images/twitter.png' %}" alt="Twitter"></a>
+      <a href="#"><img src="{% static 'images/Instagram.png' %}" alt="Instagram"></a>
+    </div>
+  </div>
+</footer>
+</html>
