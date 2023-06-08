@@ -1,0 +1,56 @@
+{% extends 'admin/base.html' %}
+{% load static %}
+
+{% block branding %}
+  <img src="{% static 'images/logo.png' %}" alt="Logo de l'entreprise">
+{% endblock %}
+
+{% block extrastyle %}
+
+<style>
+#header a:link, #header a:visited {
+  color: black;
+  }
+img {
+  width: 20%;
+  }
+
+.module h2, .module caption, .inline-group h2 {
+  background-color: white;
+  color: brown;
+  }
+
+h1 {
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+    text-align: center;
+    }
+
+a.section:link {
+  color:black;
+  }
+
+#header {
+  background-color: white;
+  color: black;
+  }
+
+div.breadcrumbs {
+  background-color: black;
+}
+
+.button, input[type=submit], input[type=button], .submit-row input, a.button {
+  background-color : grey;
+  }
+
+.button.default, input[type=submit].default, .submit-row input.default {
+  background-color: black;
+  }
+
+a:link, a:visited {
+  color: brown;
+  }
+
+</style>
+
+{% endblock %}
