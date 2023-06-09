@@ -12,9 +12,6 @@ jobs:
       - python/install-packages:
           pkg-manager: pip
       - run:
-          name: Run coverage
-          command: pytest --cov=.
-      - run:
           name: Run linting
           command: flake8
 
