@@ -57,6 +57,18 @@ jobs:
               --source-configuration "ImageRepository={ImageIdentifier=$IMAGE_URL,ImageRepositoryType=ECR_PUBLIC}" \
               --region eu-west-1
 
+      - run:
+          name: Create release and notify Sentry of deploy
+          command: |
+            export SENTRY_ENVIRONMENT=production
+            curl -sL https://sentry.io/get-cli/ | bash
+            export SENTRY_RELEASE=$(sentry-cli releases propose-version)
+            sentry-cli releases new -p $SENTRY_PROJECT $SENTRY_RELEASE
+            sentry-cli releases set-commits $SENTRY_RELEASE --auto
+            sentry-cli releases finalize $SENTRY_RELEASE
+            sentry-cli releases deploys $SENTRY_RELEASE new -e $SENTRY_ENVIRONMENT
+            sentry-cli releases new -p $SENTRY_PROJECT $SENTRY_RELEASE --log-level=debug
+
 
 workflows:
   version: 2
