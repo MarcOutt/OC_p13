@@ -1,8 +1,10 @@
 asgiref==3.6.0
+beautifulsoup4==4.12.2
 certifi==2023.5.7
 colorama==0.4.6
 coverage==7.2.5
 Django==3.0
+django-livereload-server==0.4
 entrypoints==0.3
 exceptiongroup==1.1.1
 flake8==3.7.0
@@ -20,9 +22,11 @@ python-decouple==3.8
 pytz==2023.3
 sentry-sdk==1.25.0
 six==1.16.0
+soupsieve==2.4.1
 sqlparse==0.4.4
 style==1.1.0
 tomli==2.0.1
+tornado==6.2
 typing_extensions==4.5.0
 update==0.0.1
 urllib3==2.0.2
