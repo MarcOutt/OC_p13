@@ -1,3 +1,4 @@
+# sourcery skip: use-fstring-for-concatenation
 import os
 import sentry_sdk
 from sentry_sdk.integrations.django import DjangoIntegration
@@ -15,9 +16,9 @@ config = Config(RepositoryEnv(BASE_DIR + '/.env'))
 SECRET_KEY = config('API_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['p8wmtch6es.eu-west-1.awsapprunner.com']
+ALLOWED_HOSTS = ['0.0.0.0', 'localhost', 'p8wmtch6es.eu-west-1.awsapprunner.com']
 
 # Application definition
 
