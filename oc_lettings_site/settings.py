@@ -15,9 +15,9 @@ config = Config(RepositoryEnv(BASE_DIR + '/.env'))
 SECRET_KEY = config('API_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['p8wmtch6es.eu-west-1.awsapprunner.com']
 
 # Application definition
 
