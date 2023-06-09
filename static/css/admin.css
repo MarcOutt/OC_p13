@@ -1,0 +1,16 @@
+/* admin_custom.css */
+
+/* Couleur principale blanche */
+body {
+  background-color: #ffffff;
+}
+
+/* Couleur de fond marron */
+#content {
+  background-color: #8b4513;
+}
+
+/* Couleur de l'écriture noire */
+h1, p {
+  color: #000000;
+}
