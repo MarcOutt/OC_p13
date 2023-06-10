@@ -2,23 +2,21 @@
 import os
 import sentry_sdk
 from sentry_sdk.integrations.django import DjangoIntegration
-from decouple import Config, RepositoryEnv
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-config = Config(RepositoryEnv(BASE_DIR + '/.env'))
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = config('API_KEY')
+SECRET_KEY = 'fp$9^593hsriajg$_%=5trot9g!1qa@ew(o-1#@=&4%=hp46(s'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['0.0.0.0', 'localhost', 'p8wmtch6es.eu-west-1.awsapprunner.com']
+ALLOWED_HOSTS = ['xqyxppk2db.eu-west-1.awsapprunner.com/']
 
 # Application definition
 
@@ -65,10 +63,10 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'oc_lettings_site.wsgi.application'
-
+SENTRY_DSN = os.environ.get('SENTRY_DSN')
 
 sentry_sdk.init(
-    dsn=config('SENTRY_DSN'),
+    dsn=SENTRY_DSN,
     integrations=[
         DjangoIntegration(),
     ],
