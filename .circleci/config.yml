@@ -41,6 +41,7 @@ jobs:
             echo "$AWS_PEM_KEY" > ~/.ssh/id_rsa.pem
             chmod 400 ~/.ssh/id_rsa.pem
             echo "Host ec2-instance" >> ~/.ssh/config
+            echo "  HostName ec2-user@3.250.217.211" >> ~/.ssh/config
       - run:
           name: Create release and notify Sentry of deploy
           command: |
