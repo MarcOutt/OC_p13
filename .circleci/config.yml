@@ -38,7 +38,7 @@ jobs:
       - run:
           name: Push Docker image to EC2
           command: |
-
+            echo "$AWS_PEM_KEY" > ~/.ssh/id_rsa.pem
             chmod 400 ~/.ssh/id_rsa.pem
             echo "Host ec2-instance" >> ~/.ssh/config
       - run:
