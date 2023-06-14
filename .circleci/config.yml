@@ -23,23 +23,18 @@ jobs:
           docker_layer_caching: true
       - checkout
       - run:
-          name: Build Docker image
+          name: Connect to EC2
           command: |
-            SHA1="$CIRCLE_SHA1"
-            docker build -t marcout/lettings-app .
-            echo $DOCKER_PASSWORD | docker login -u $DOCKER_USER --password-stdin
-            docker tag marcout/lettings-app:latest marcout/lettings-app:"$SHA1"
-            docker push marcout/lettings-app:"$SHA1"
+            echo "$AWS_PEM_KEY" > ~/.ssh/id_rsa.pem
+            chmod 400 ~/.ssh/id_rsa.pem
+            echo "Host ec2-instance" >> ~/.ssh/config
+            echo "  HostName 3.250.217.211" >> ~/.ssh/config
+            echo "  User ec2-user" >> ~/.ssh/config
+            echo "  IdentityFile ~/.ssh/id_rsa.pem" >> ~/.ssh/config
       - run:
-          name: Pull Docker image
+          name: Test SSH Connection
           command: |
-            SHA1="$CIRCLE_SHA1"
-            docker pull marcout/lettings-app:"$SHA1"
-      - run:
-          name: SSH to EC2
-          command: |
-            ssh ec2-user@3.250.217.211 'docker ps --filter "ancestor=marcout/lettings-app" -q'
-
+            ssh ec2-instance 'echo "SSH connection successful"'
       - run:
           name: Create release and notify Sentry of deploy
           command: |
