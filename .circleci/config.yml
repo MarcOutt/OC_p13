@@ -44,6 +44,7 @@ jobs:
             echo "  HostName ec2-user@3.250.217.211" >> ~/.ssh/config
             echo "  User ec2-user" >> ~/.ssh/config
             echo "  IdentityFile ~/.ssh/id_rsa.pem" >> ~/.ssh/conf
+            ssh -o StrictHostKeyChecking=no ec2-instance 'docker stop moncontainer || true'
       - run:
           name: Create release and notify Sentry of deploy
           command: |
