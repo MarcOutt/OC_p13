@@ -38,14 +38,14 @@ jobs:
       - run:
           name: Get image run
           command: |
-            CONTAINER_ID=$(ssh -o StrictHostKeyChecking=no ec2-instance 'docker ps --filter "ancestor=marcout/lettings-app" -q')
+            CONTAINER_ID=$(ssh -o StrictHostKeyChecking=no ec2-user@3.250.217.211 'docker ps --filter "ancestor=marcout/lettings-app" -q')
             if [[ -n "$CONTAINER_ID" ]]; then
               echo "Container ID: $CONTAINER_ID"
             else
               echo "No container running with the specified image."
             fi
       - run:
-          name: Push Docker image to EC2
+          name: Connect to EC2
           command: |
             echo "$AWS_PEM_KEY" > ~/.ssh/id_rsa.pem
             chmod 400 ~/.ssh/id_rsa.pem
@@ -77,9 +77,4 @@ workflows:
 
   master-workflow:
     jobs:
-      - test:
-          filters:
-            branches:
-              only: master
-      - deploy:
-          requires:
+      - deploy
