@@ -36,15 +36,6 @@ jobs:
             SHA1="$CIRCLE_SHA1"
             docker pull marcout/lettings-app:"$SHA1"
       - run:
-          name: Push Docker image to EC2
-          command: |
-            echo "$AWS_PEM_KEY" > ~/.ssh/id_rsa.pem
-            chmod 400 ~/.ssh/id_rsa.pem
-            echo "Host ec2-instance" >> ~/.ssh/config
-            echo "  HostName 3.250.217.211" >> ~/.ssh/config
-            echo "  User ec2-user" >> ~/.ssh/config
-            echo "  IdentityFile ~/.ssh/id_rsa.pem" >> ~/.ssh/conf
-      - run:
           name: Get image run
           command: |
             CONTAINER_ID=$(ssh -o StrictHostKeyChecking=no ec2-instance 'docker ps --filter "ancestor=marcout/lettings-app" -q')
@@ -53,6 +44,15 @@ jobs:
             else
               echo "No container running with the specified image."
             fi
+      - run:
+          name: Push Docker image to EC2
+          command: |
+            echo "$AWS_PEM_KEY" > ~/.ssh/id_rsa.pem
+            chmod 400 ~/.ssh/id_rsa.pem
+            echo "Host ec2-instance" >> ~/.ssh/config
+            echo "  HostName 3.250.217.211" >> ~/.ssh/config
+            echo "  User ec2-user" >> ~/.ssh/config
+            echo "  IdentityFile ~/.ssh/id_rsa.pem" >> ~/.ssh/conf
       - run:
           name: Create release and notify Sentry of deploy
           command: |
@@ -83,7 +83,3 @@ workflows:
               only: master
       - deploy:
           requires:
-            - test
-          filters:
-            branches:
-              only: master
