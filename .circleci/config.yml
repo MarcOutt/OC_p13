@@ -55,7 +55,7 @@ jobs:
       - run:
           name: run docker image
           command: |
-            ssh -i "Lettings.pem" ec2-user@ec2-3-252-160-237.eu-west-1.compute.amazonaws.com docker run -t -p 8080:8000 marcout/lettings-app:latest
+            ssh -i "Lettings.pem" ec2-user@ec2-3-252-160-237.eu-west-1.compute.amazonaws.com docker run -t -p 8000:8000 marcout/lettings-app:latest
       - run:
           name: Create release and notify Sentry of deploy
           command: |
