@@ -25,12 +25,7 @@ jobs:
       - run:
           name: Connect to EC2
           command: |
-            echo "$AWS_PEM_KEY" > ~/.ssh/id_rsa.pem
-            chmod 400 ~/.ssh/id_rsa.pem
-            echo "Host ec2-instance" >> ~/.ssh/config
-            echo "  HostName 3.250.217.211" >> ~/.ssh/config
-            echo "  User ec2-user" >> ~/.ssh/config
-            echo "  IdentityFile ~/.ssh/id_rsa.pem" >> ~/.ssh/config
+            ssh -i "Lettings.pem" ec2-user@ec2-3-252-160-237.eu-west-1.compute.amazonaws.com
       - run:
           name: Test SSH Connection
           command: |
