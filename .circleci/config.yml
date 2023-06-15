@@ -46,7 +46,7 @@ jobs:
           command: |
             echo "$SSH_PRIVATE_KEY" > Lettings.pem
             chmod 600 Lettings.pem
-            ssh -i "Lettings.pem" ec2-user@ec2-3-252-160-237.eu-west-1.compute.amazonaws.com docker pull marcout/lettings-app
+            ssh -i "Lettings.pem" ec2-user@ec2-3-252-160-237.eu-west-1.compute.amazonaws.com docker pull marcout/lettings-app:"$SHA1"
       - run:
           name: stop container
           command: |
@@ -56,7 +56,7 @@ jobs:
           name: run docker image
           command: |
             #!/bin/bash -eo pipefail
-            ssh -i "Lettings.pem" ec2-user@ec2-3-252-160-237.eu-west-1.compute.amazonaws.com docker run -d -p 8000:8000 marcout/lettings-app:latest
+            ssh -i "Lettings.pem" ec2-user@ec2-3-252-160-237.eu-west-1.compute.amazonaws.com docker run -d -p 8000:8000 marcout/lettings-app:marcout/lettings-app:"$SHA1"
 
       - run:
           name: Create release and notify Sentry of deploy
