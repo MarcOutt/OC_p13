@@ -51,7 +51,7 @@ jobs:
           name: stop container
           command: |
             ssh -i "Lettings.pem" ec2-user@ec2-3-252-160-237.eu-west-1.compute.amazonaws.com docker ps -aq
-            ssh -i "Lettings.pem" ec2-user@ec2-3-252-160-237.eu-west-1.compute.amazonaws.com "sudo lsof -i :8000 | awk 'NR!=1 {print \$2}' | xargs sudo kill -9"
+            ssh -i "Lettings.pem" ec2-user@ec2-3-252-160-237.eu-west-1.compute.amazonaws.com "sudo pkill -f :8000"
       - run:
           name: run docker image
           command: |
