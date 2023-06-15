@@ -33,11 +33,11 @@ jobs:
             echo $DOCKER_PASSWORD | docker login -u $DOCKER_USER --password-stdin
             docker tag marcout/lettings-app:latest marcout/lettings-app:"$SHA1"
             docker push marcout/lettings-app:"$SHA1"
-            - run:
-                name: Pull Docker image
-                command: |
-                  SHA1="$CIRCLE_SHA1"
-                  docker pull marcout/lettings-app:"$SHA1"
+      - run:
+          name: Pull Docker image
+          command: |
+            SHA1="$CIRCLE_SHA1"
+            docker pull marcout/lettings-app:"$SHA1"
       - run:
           name: Add key on known hosts
           command: ssh-keyscan -H -t ed25519 ec2-3-252-160-237.eu-west-1.compute.amazonaws.com >> ~/.ssh/known_hosts
