@@ -26,6 +26,9 @@ jobs:
           fingerprints:
             - "n0n70ug5nLlO+RIpqp4T3Ey3/Px/a862Tnl5/iqCbk0"
       - run:
+          name: Add key on known hosts
+          command: ssh-keyscan -H -t ed25519 ec2-3-252-160-237.eu-west-1.compute.amazonaws.com >> ~/.ssh/known_hosts
+      - run:
           name: Connect to EC2
           command: |
             echo "$SSH_PRIVATE_KEY" > Lettings.pem
