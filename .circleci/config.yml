@@ -26,6 +26,19 @@ jobs:
           fingerprints:
             - "n0n70ug5nLlO+RIpqp4T3Ey3/Px/a862Tnl5/iqCbk0"
       - run:
+          name: Build Docker image
+          command: |
+            SHA1="$CIRCLE_SHA1"
+            docker build -t marcout/lettings-app .
+            echo $DOCKER_PASSWORD | docker login -u $DOCKER_USER --password-stdin
+            docker tag marcout/lettings-app:latest marcout/lettings-app:"$SHA1"
+            docker push marcout/lettings-app:"$SHA1"
+            - run:
+                name: Pull Docker image
+                command: |
+                  SHA1="$CIRCLE_SHA1"
+                  docker pull marcout/lettings-app:"$SHA1"
+      - run:
           name: Add key on known hosts
           command: ssh-keyscan -H -t ed25519 ec2-3-252-160-237.eu-west-1.compute.amazonaws.com >> ~/.ssh/known_hosts
       - run:
@@ -35,9 +48,13 @@ jobs:
             chmod 600 Lettings.pem
             ssh -i "Lettings.pem" ec2-user@ec2-3-252-160-237.eu-west-1.compute.amazonaws.com
       - run:
-          name: Test SSH Connection
+          name: Pull docker image
           command: |
-            ssh ec2-instance 'echo "SSH connection successful"'
+            docker pull marcout/lettings-app:"$SHA1"
+            docker tag marcout/lettings-app:latest marcout/lettings-app:"$SHA1"
+            docker stop $(docker ps -q)
+            docker run -t -p 8000:8000 marcout/lettings-app:"$SHA1"
+
       - run:
           name: Create release and notify Sentry of deploy
           command: |
