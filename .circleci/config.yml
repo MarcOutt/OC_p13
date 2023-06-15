@@ -44,6 +44,7 @@ jobs:
       - run:
           name: Connect to EC2 and pull image docker
           command: |
+            SHA1="$CIRCLE_SHA1"
             echo "$SSH_PRIVATE_KEY" > Lettings.pem
             chmod 600 Lettings.pem
             ssh -i "Lettings.pem" ec2-user@ec2-3-252-160-237.eu-west-1.compute.amazonaws.com docker pull marcout/lettings-app:"$SHA1"
