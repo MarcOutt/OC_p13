@@ -1,10 +1,10 @@
+
 from django.contrib import admin
 from django.urls import path
 from lettings import views
 from lettings.views import letting
 from oc_lettings_site.views import index, trigger_error
 from profiles.views import profiles_index, profile
-
 
 urlpatterns = [
     path('', index, name='index'),
