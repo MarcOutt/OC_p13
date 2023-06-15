@@ -27,7 +27,7 @@ jobs:
           command: |
             echo "$SSH_PRIVATE_KEY" > Lettings.pem
             chmod 600 Lettings.pem
-            ssh -i "Lettings.pem" ec2-user@ec2-3-252-160-237.eu-west-1.compute.amazonaws.com
+            ssh -o StrictHostKeyChecking=yes -i "Lettings.pem" ec2-user@ec2-3-252-160-237.eu-west-1.compute.amazonaws.com
       - run:
           name: Test SSH Connection
           command: |
