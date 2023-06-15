@@ -22,6 +22,9 @@ jobs:
           version: 20.10.14
           docker_layer_caching: true
       - checkout
+      - add_ssh_keys:
+          fingerprints:
+            - "n0n70ug5nLlO+RIpqp4T3Ey3/Px/a862Tnl5/iqCbk0"
       - run:
           name: Connect to EC2
           command: |
