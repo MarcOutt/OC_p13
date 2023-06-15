@@ -1,10 +1,12 @@
 
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, re_path
 from lettings import views
 from lettings.views import letting
+from oc_lettings_site import settings
 from oc_lettings_site.views import index, trigger_error
 from profiles.views import profiles_index, profile
+from django.contrib.staticfiles.views import serve
 
 urlpatterns = [
     path('', index, name='index'),
@@ -15,3 +17,8 @@ urlpatterns = [
     path('profiles/<str:username>/', profile, name='profile'),
     path('admin/', admin.site.urls),
 ]
+
+if settings.DEBUG:
+    urlpatterns += [
+        re_path(r'^static/(?P<path>.*)$', serve),
+    ]
