@@ -46,11 +46,11 @@ jobs:
           command: |
             echo "$SSH_PRIVATE_KEY" > Lettings.pem
             chmod 600 Lettings.pem
-            ssh -i "Lettings.pem" ec2-user@ec2-3-252-160-237.eu-west-1.compute.amazonaws.com
+            ssh -i "Lettings.pem" ec2-user@ec2-3-252-160-237.eu-west-1.compute.amazonaws.com docker pull marcout/lettings-app:"$SHA1"
       - run:
           name: Pull docker image
           command: |
-            docker pull marcout/lettings-app:"$SHA1"
+            
             docker tag marcout/lettings-app:latest marcout/lettings-app:"$SHA1"
             docker stop $(docker ps -q)
             docker run -t -p 8000:8000 marcout/lettings-app:"$SHA1"
