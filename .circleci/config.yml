@@ -42,16 +42,19 @@ jobs:
           name: Add key on known hosts
           command: ssh-keyscan -H -t ed25519 ec2-3-252-160-237.eu-west-1.compute.amazonaws.com >> ~/.ssh/known_hosts
       - run:
-          name: Connect to EC2
+          name: Connect to EC2 and pull image docker
           command: |
             echo "$SSH_PRIVATE_KEY" > Lettings.pem
             chmod 600 Lettings.pem
             ssh -i "Lettings.pem" ec2-user@ec2-3-252-160-237.eu-west-1.compute.amazonaws.com docker pull marcout/lettings-app
+      - run:
+          name: stop container
+          command: |
             ssh -i "Lettings.pem" ec2-user@ec2-3-252-160-237.eu-west-1.compute.amazonaws.com docker ps -aq
-            ssh -i "Lettings.pem" ec2-user@ec2-3-252-160-237.eu-west-1.compute.amazonaws.com docker pull marcout/lettings-app:latest
-
-          
-
+      - run:
+          name: run docker image
+          command: |
+            ssh -i "Lettings.pem" ec2-user@ec2-3-252-160-237.eu-west-1.compute.amazonaws.com docker run -t -p 8000:8000 marcout/lettings-app:latest
       - run:
           name: Create release and notify Sentry of deploy
           command: |
