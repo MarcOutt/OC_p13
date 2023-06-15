@@ -56,7 +56,7 @@ jobs:
       - run:
           name: Download .env file
           command: |
-            scp -i Lettings.pem ec2-user@ec2-3-252-160-237.eu-west-1.compute.amazonaws.com:/home/user/.env .
+            scp -i Lettings.pem ec2-user@ec2-3-252-160-237.eu-west-1.compute.amazonaws.com:/home/ec2-user/.env .
       - run:
           name: Run Docker container
           command: |
