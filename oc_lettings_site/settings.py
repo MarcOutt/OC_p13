@@ -6,13 +6,13 @@ from decouple import Config, RepositoryEnv, Csv
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-config = Config(RepositoryEnv(BASE_DIR + '/.env'))
+config = Config()
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv("SECRET_KEY")
+SECRET_KEY = config("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
@@ -67,7 +67,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'oc_lettings_site.wsgi.application'
 
 sentry_sdk.init(
-    dsn=os.getenv("SENTRY_DSN"),
+    dsn=config("SENTRY_DSN"),
     integrations=[
         DjangoIntegration(),
     ],
