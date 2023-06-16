@@ -61,7 +61,7 @@ jobs:
           name: run docker image
           command: |
             SHA1="$CIRCLE_SHA1"
-            ssh -i "Lettings.pem" ec2-user@ec2-52-212-209-10.eu-west-1.compute.amazonaws.com docker run -d -p 8000:8000 --env-file ./.env marcout/lettings-app:"$SHA1"
+            ssh -i "Lettings.pem" ec2-user@ec2-52-212-209-10.eu-west-1.compute.amazonaws.com docker run -d -p 8000:8000 marcout/lettings-app:"$SHA1"
       - run:
           name: Create release and notify Sentry of deploy
           command: |
