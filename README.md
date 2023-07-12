@@ -82,7 +82,7 @@ Utilisation de PowerShell, comme ci-dessus sauf :
 ## Deploiement
 
 ### Fonctionnement du déploiement
-Le déploiement de l'application est effectué à l'aide de Docker et AWS App Runner. Docker est utilisé pour créer une image conteneurisée de l'application, puis l'image est envoyée à AWS ECR (Elastic Container Registry). Ensuite, AWS App Runner récupère l'image depuis ECR et déploie l'application sur un serveur géré par AWS.
+Le déploiement de l'application est effectué à l'aide de Docker et AWS EC2. Docker est utilisé pour créer une image conteneurisée de l'application, puis l'image est envoyée à EC2 et on lance l'image sur le serveur.
 
 ### Configuration requise
 
@@ -90,7 +90,7 @@ Avant de procéder au déploiement, assurez-vous d'avoir les éléments suivants
 - Un serveur compatible Docker (comme un serveur Linux) avec Docker installé.
 - Une base de données compatible avec Django configurée et accessible.
 - Le port réseau 8000 doit être ouvert pour le trafic HTTP.
-- Un compte AWS avec les autorisations nécessaires pour créer et gérer des ressources telles que ECR et App Runner.
+- Un compte AWS avec les autorisations nécessaires pour créer et gérer des ressources.
 
 ### Étapes de déploiement
 1. Configurez un serveur compatible Docker avec les mises à jour système.
@@ -98,11 +98,7 @@ Avant de procéder au déploiement, assurez-vous d'avoir les éléments suivants
 3. Créez une image Docker de l'application en utilisant la commande `docker build -t marcout/lettings-app .`.
 4. Envoyez l'image Docker vers Docker Hub en utilisant la commande `docker push marcout/lettings-app:"$SHA1"`.
 5. Récupérez l'image Docker de l'application en utilisant la commande `docker pull marcout/lettings-app:latest`.
-6. Connectez-vous à AWS et configurez les informations d'identification nécessaires.
-7. Connectez-vous à AWS ECR Public en utilisant la commande `aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/f9r8d7r0`.
-8. Taguez l'image Docker pour ECR en utilisant la commande `docker tag marcout/lettings-app:"$SHA1" public.ecr.aws/f9r8d7r0/lettings-app:"${SHA1}"`.
-9. Envoyez l'image Docker à ECR en utilisant la commande `docker push public.ecr.aws/f9r8d7r0/lettings-app:"${SHA1}"`.
-10. Déployez l'image ECR sur AWS App Runner en utilisant la commande fournie.
+6. ******
 
 ### Circle CI/CD
 
