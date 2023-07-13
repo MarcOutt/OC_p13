@@ -12,8 +12,8 @@ jobs:
       - python/install-packages:
           pkg-manager: pip
       - run:
-          name: Install pytest
-          command: pip install pytest-django
+          name: Install dependencies
+          command: pip install -r requirements.txt
       - run:
           name: Run linting
           command: flake8
