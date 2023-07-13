@@ -97,24 +97,24 @@ Avant de procéder au déploiement, assurez-vous d'avoir les éléments suivants
 1. Configurez un serveur compatible Docker.
 
 #### Sous Windows
-a. Créez une paire de clef pour l'instance EC2 au format ppk
-b. Pour se connecter sur une instance EC2 sous window, il faut installer l'application PuTTY:
-c. https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html
-d. Ouvrir PuTTY gen 
-e. Faites load et choisissez la paire de clef exemple: Lettings.ppk
-f. Cliquer sur "Save private key et faites "Yes"
-g. Ouvrir PuTTY
-i. Allez dans Session
-k. Entrez l'adresse IP publique de l'instance EC2 dans le champ "Host Name"
+  a. Créez une paire de clef pour l'instance EC2 au format ppk
+  b. Pour se connecter sur une instance EC2 sous window, il faut installer l'application PuTTY:
+  c. https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html
+  d. Ouvrir PuTTY gen 
+  e. Faites load et choisissez la paire de clef exemple: Lettings.ppk
+  f. Cliquer sur "Save private key et faites "Yes"
+  g. Ouvrir PuTTY
+  i. Allez dans Session
+  k. Entrez l'adresse IP publique de l'instance EC2 dans le champ "Host Name"
 `ec2-52-212-209-10.eu-west-1.compute.amazonaws.com`
-l. Vérifiez que le port SSH (port22) soit selectionné dans la liste déroulante "Port"
-m. Allez dans la barre latérale de PuTTY, allez dans connection et cliquez sur "Data".
-n. Remplir le champs Auto-login username avec "ec2-user"
-o. Allez dans la barre latérale de PuTTY, agrandissez la section "SSH" et cliquez sur "Auth".
-p. Faites "Browse", selectionnez votre clef privée par exemple "Lettings.ppk". PuTTY utilise le format ppk pour les clefs.
-q. Sauvegarder la configuration en cliquant sur "save".
-r. Cliquez sur "open" et une fenêtre de terminal s'ouvrira
-s. Ajoutez la commande `ssh -i "Lettings.pem" ec2-user@ec2-52-212-209-10.eu-west-1.compute.amazonaws.com` dans le terminal
+  l. Vérifiez que le port SSH (port22) soit selectionné dans la liste déroulante "Port"
+  m. Allez dans la barre latérale de PuTTY, allez dans connection et cliquez sur "Data".
+  n. Remplir le champs Auto-login username avec "ec2-user"
+  o. Allez dans la barre latérale de PuTTY, agrandissez la section "SSH" et cliquez sur "Auth".
+  p. Faites "Browse", selectionnez votre clef privée par exemple "Lettings.ppk". PuTTY utilise le format ppk pour les clefs.
+  q. Sauvegarder la configuration en cliquant sur "save".
+  r. Cliquez sur "open" et une fenêtre de terminal s'ouvrira
+  s. Ajoutez la commande `ssh -i "Lettings.pem" ec2-user@ec2-52-212-209-10.eu-west-1.compute.amazonaws.com` dans le terminal
 
 #### Sous Mac/Os
 a. Créez une paire de clef pour l'instance EC2 au format pem
