@@ -20,6 +20,9 @@ jobs:
       - run:
           name: Run test
           command: pytest
+      - run:
+          name: Show SENTRY_DSN
+          command: echo $SENTRY_DSN
 
   deploy:
     executor: aws-cli/default
