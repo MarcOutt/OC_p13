@@ -93,12 +93,44 @@ Avant de procéder au déploiement, assurez-vous d'avoir les éléments suivants
 - Un compte AWS avec les autorisations nécessaires pour créer et gérer des ressources.
 
 ### Étapes de déploiement
-1. Configurez un serveur compatible Docker avec les mises à jour système.
-2. Installez Docker sur le serveur.
-3. Créez une image Docker de l'application en utilisant la commande `docker build -t marcout/lettings-app .`.
-4. Envoyez l'image Docker vers Docker Hub en utilisant la commande `docker push marcout/lettings-app:"$SHA1"`.
-5. Récupérez l'image Docker de l'application en utilisant la commande `docker pull marcout/lettings-app:latest`.
-6. ******
+
+1. Configurez un serveur compatible Docker.
+
+#### Sous Windows
+a. Créez une paire de clef pour l'instance EC2 au format ppk
+b. Pour se connecter sur une instance EC2 sous window, il faut installer l'application PuTTY:
+c. https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html
+d. Ouvrir PuTTY gen 
+e. Faites load et choisissez la paire de clef exemple: Lettings.ppk
+f. Cliquer sur "Save private key et faites "Yes"
+g. Ouvrir PuTTY
+i. Allez dans Session
+k. Entrez l'adresse IP publique de l'instance EC2 dans le champ "Host Name"
+`ec2-52-212-209-10.eu-west-1.compute.amazonaws.com`
+l. Vérifiez que le port SSH (port22) soit selectionné dans la liste déroulante "Port"
+m. Allez dans la barre latérale de PuTTY, allez dans connection et cliquez sur "Data".
+n. Remplir le champs Auto-login username avec "ec2-user"
+o. Allez dans la barre latérale de PuTTY, agrandissez la section "SSH" et cliquez sur "Auth".
+p. Faites "Browse", selectionnez votre clef privée par exemple "Lettings.ppk". PuTTY utilise le format ppk pour les clefs.
+q. Sauvegarder la configuration en cliquant sur "save".
+r. Cliquez sur "open" et une fenêtre de terminal s'ouvrira
+s. Ajoutez la commande `ssh -i "Lettings.pem" ec2-user@ec2-52-212-209-10.eu-west-1.compute.amazonaws.com` dans le terminal
+
+#### Sous Mac/Os
+a. Créez une paire de clef pour l'instance EC2 au format pem
+b. Ouvir le terminal 
+c. Pour définir les permissions appropriées sur le fichier de clef privée `chmod 400 Lettings.pem`
+d. Pour se connecter au serveur `ssh -i Lettings.pem ec2-user@ec2-52-212-209-10.eu-west-1.compute.amazonaws.com`
+
+
+2. Dans le serveur, mettre à jour le serveur avec la commande:`sudo apt update`
+3. Télécharger le script d'installation Docker: `curl -fsSL https://get.docker.com -o get-docker.sh`
+4. Executez le script: `sudo sh get-docker.sh`
+5. Vérifiez si docker est bien installé: `docker version`
+6. Afin d'éviter d'utiliser sudo lors des commandes faire: `sudo usermod -aG docker $USER`
+7. Lancer l'image de l'application avec la commande: `docker pull marcout/lettings-app:latest`
+8. Lancer l'image de l'application avec la commande: `docker run -d -p 8000:8000 -e SENTRY_DSN=$SENTRY_DSN -e SECRET_KEY=$SECRET_KEY marcout/lettings-app`, pensez à remplacer le $SENTRY_DSN et $SECRET_KEY par les bonnes clefs.
+9. L'application est fonctionnelle.
 
 ### Circle CI/CD
 
