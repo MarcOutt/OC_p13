@@ -20,6 +20,9 @@ jobs:
       - run:
           name: Run test
           command: pytest
+          env:
+            SENTRY_DSN=$SENTRY_DSN
+            SECRET_KEY=$SECRET_KEY
 
   deploy:
     executor: aws-cli/default
