@@ -69,7 +69,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'oc_lettings_site.wsgi.application'
-if not 'pytest' in sys.argv:
+if '--no-sentry' in sys.argv:
     if os.environ.get('SENTRY_DSN'):
         sentry_sdk.init(
             dsn=os.environ.get('SENTRY_DSN'),

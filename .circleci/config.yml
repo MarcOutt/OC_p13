@@ -19,7 +19,7 @@ jobs:
           command: flake8
       - run:
           name: Run test
-          command: pytest
+          command: pytest --no-sentry
 
   deploy:
     executor: aws-cli/default
