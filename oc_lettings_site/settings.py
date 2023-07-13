@@ -68,7 +68,8 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'oc_lettings_site.wsgi.application'
 sentry_sdk.init(
-    dsn='https://49eaf6eddc7548339774b2a1677d9b7d@o4505311407243264.ingest.sentry.io/4505311422709760',
+    dsn='https://49eaf6eddc7548339774b2a1677d9b7d@o4505311407243264.ingest.sentry.io/'
+        '4505311422709760',
     integrations=[
         DjangoIntegration(),
     ],
