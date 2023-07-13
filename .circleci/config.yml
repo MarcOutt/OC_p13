@@ -22,7 +22,12 @@ jobs:
           command: flake8
       - run:
           name: Run test
-          command: pytest
+          command: |
+            if [[ -z "$SENTRY_DSN" ]]; then
+              pytest
+            else
+              pytest --no-sentry
+            fi
           environment:
             SENTRY_DSN: $SENTRY_DSN
 
