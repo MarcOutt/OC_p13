@@ -21,7 +21,7 @@ jobs:
           name: Run test
           command: pytest
           environment:
-            SENTRY_DSN="https://49eaf6eddc7548339774b2a1677d9b7d@o4505311407243264.ingest.sentry.io/4505311422709760"
+            SENTRY_DSN=$SENTRY_DSN
             SECRET_KEY=$SECRET_KEY
 
   deploy:
