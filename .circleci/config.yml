@@ -21,7 +21,7 @@ jobs:
           name: Run test
           command: pytest
           environment:
-            SENTRY_DSN: $SENTRY_DSN
+            SENTRY_DSN: $SENTRY_DS
             SECRET_KEY: $SECRET_KEY
 
   deploy:
