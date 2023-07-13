@@ -1,2 +1,2 @@
-SECRET_KEY=''
-SENTRY_DSN=''
+SECRET_KEY = ''
+SENTRY_DSN = ''
