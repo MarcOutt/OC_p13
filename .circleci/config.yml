@@ -13,7 +13,7 @@ jobs:
           pkg-manager: pip
       - run:
           name: Install pytest
-          command: pip install pytest
+          command: pip install pytest-django
       - run:
           name: Run linting
           command: flake8
