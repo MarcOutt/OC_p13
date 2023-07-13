@@ -23,6 +23,8 @@ jobs:
       - run:
           name: Run test
           command: pytest
+          environment:
+            SENTRY_DSN: $SENTRY_DSN
 
 
   deploy:
