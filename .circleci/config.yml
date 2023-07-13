@@ -20,9 +20,6 @@ jobs:
       - run:
           name: Run test
           command: pytest --no-sentry
-          environment:
-            SENTRY_DSN: $SENTRY
-            SECRET_KEY: $SECRET_KEY
 
   deploy:
     executor: aws-cli/default
