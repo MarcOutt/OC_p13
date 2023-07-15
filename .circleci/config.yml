@@ -16,16 +16,14 @@ jobs:
           command: pip install -r requirements.txt
       - run:
           name: Show SENTRY_DSN
-          command: echo $SENTRY
+          command: echo $SENTRY_DSN
       - run:
           name: Run linting
           command: flake8
       - run:
           name: Run test
           command: |
-              pytest --no-sentry
-          environment:
-            SENTRY_DSN: $SENTRY_DSN
+              pytest
 
 
   deploy:
