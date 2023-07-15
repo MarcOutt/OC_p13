@@ -16,7 +16,7 @@ jobs:
           command: pip install -r requirements.txt
       - run:
           name: Show SENTRY_DSN
-          command: echo $SENTRY
+          command: echo $SENTRY_DSN
       - run:
           name: Run linting
           command: flake8
