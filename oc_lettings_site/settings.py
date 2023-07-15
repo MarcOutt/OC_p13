@@ -68,6 +68,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'oc_lettings_site.wsgi.application'
+print(os.environ.get('SENTRY_DSN'))
 if os.environ.get('SENTRY_DSN') != '':
     sentry_sdk.init(
         dsn=os.environ.get('SENTRY_DSN'),
